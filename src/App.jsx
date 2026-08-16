@@ -42,30 +42,134 @@ const pizzaData = [
     soldOut: false,
   },
 ];
+const profileData = [
+  {
+    name: "Seng Lyhour",
+    bio: `I'm Seng Lyhour, a full-stack software development student based in Phnom Penh, Cambodia.
+        I focus on building functional, user-centric web applications and actively expanding my technical skillset.
+        If there is a complex routing or deployment issue to solve, chances are I'll build a system around it and ship it.
+        My main tech stack is React, TypeScript, Tailwind, Next.js, and Laravel. My go-to tools are Docker, Git, and Vercel, and I am currently diving deep into PHP.`,
+  },
+];
 
+const skills = [
+  {
+    skill: "HTML+CSS",
+    level: "advanced",
+    color: "#2662EA",
+  },
+  {
+    skill: "JavaScript",
+    level: "advanced",
+    color: "#EFD81D",
+  },
+  {
+    skill: "Web Design",
+    level: "advanced",
+    color: "#C3DCAF",
+  },
+  {
+    skill: "Git and GitHub",
+    level: "intermediate",
+    color: "#E84F33",
+  },
+  {
+    skill: "React",
+    level: "advanced",
+    color: "#60DAFB",
+  },
+  {
+    skill: "Svelte",
+    level: "beginner",
+    color: "#FF3B00",
+  },
+];
 export default function App() {
+  const pizzas = pizzaData;
+  // const pizzas = [];
+  const numPizzas = pizzas.length;
   return (
-    <div className="menu">
-      <h2>Our Menu</h2>
+    <div className="container">
       <Header />
-      <Menu
-        name="Pizza Prosciutto"
-        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
-        price={12}
-        photoName="pizzas/prosciutto.jpg"
-      />
-      <Menu
-        name="Pizza Prosciutto"
-        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
-        price={12}
-        photoName="pizzas/salamino.jpg"
-      />
-      
+      <h2 className="text-2xl border-t border-b py-2">Our Menu</h2>
+
+      {numPizzas > 0 ? (
+        <>
+          <p className="text-4xl">
+            Authentic italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, organic, all delicious
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizzaData) => (
+              <li className={`pizza ${pizzaData.soldOut ? "sold-out" : ""}`}>
+                <img src={pizzaData.photoName} alt={pizzaData.name} />
+                <div>
+                  <h2>{pizzaData.name}</h2>
+                  <p>{pizzaData.ingredients}</p>
+                  <span>{pizzaData.soldOut ? "SOLDOUT" : pizzaData.price}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We're still working on our menu. Please come back later.</p>
+      )}
+
       <Footer />
+
+      <div className="card">
+        <Avator photoName="pizzas/salamino.jpg" name="Pizza Prosciutto" />
+        <div className="data">
+          <Intro />
+          <Skillslist />
+        </div>
+      </div>
     </div>
   );
 }
-
+function Avator({ photoName, name }) {
+  return (
+    <div>
+      <img src={photoName} alt={name} />
+    </div>
+  );
+}
+function Skillslist() {
+  return (
+    <div>
+      {skills.map(({ skill, color, level }) => (
+        <div className="skill-list">
+          <Skill skill={skill} color={color} level={level} />
+        </div>
+      ))}
+    </div>
+  );
+}
+function Skill({ skill, color, level }) {
+  return (
+    <div className="skill" style={{ background: color }}>
+      <span>{skill}</span>
+      <span>
+        {level === "beginner" && "👶"}
+        {level === "intermediate" && "👍"}
+        {level === "advanced" && "💪"}
+      </span>
+    </div>
+  );
+}
+function Intro() {
+  return (
+    <div>
+      {profileData.map(({ name, bio }) => (
+        <div>
+          <h2 className="text-4xl font-bold py-5">{name}</h2>
+          <p className="text-xl font-medium">{bio}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 function Header() {
   return (
     <header className="header">
@@ -73,29 +177,28 @@ function Header() {
     </header>
   );
 }
-function Menu(props) {
-  return (
-    <div className="pizza">
-      <img src={props.photoName} alt={name} />
-      <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 5}</span>
-      </div>
-    </div>
-  );
-}
 
 function Footer() {
   const hour = new Date().getHours();
+  const openHour = 20;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
   return (
     <footer className="footer">
-      <p>
-        <span>It's {hour}</span>{" "}
-        {hour >= 12 && hour < 22
-          ? "We're currently open!"
-          : "We're currently closed!"}
-      </p>
+      {isOpen ? (
+        <Order openHours={openHour} />
+      ) : (
+        <h2>Sorry our shop is closing</h2>
+      )}
     </footer>
+  );
+}
+
+function Order({ openHours }) {
+  return (
+    <div className="order">
+      <h2>We are opening at {openHours}:00</h2>
+      <button className="btn">Order now</button>
+    </div>
   );
 }
