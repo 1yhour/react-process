@@ -1,3 +1,5 @@
+import Steps from "./Steps.tsx";
+import Counter from "./Counter.tsx"
 const pizzaData = [
   {
     name: "Focaccia",
@@ -100,8 +102,8 @@ export default function App() {
             from our stone oven, organic, all delicious
           </p>
           <ul className="pizzas">
-            {pizzaData.map((pizzaData) => (
-              <li className={`pizza ${pizzaData.soldOut ? "sold-out" : ""}`}>
+            {pizzaData.map((pizzaData, index) => (
+              <li key={index} className={`pizza ${pizzaData.soldOut ? "sold-out" : ""}`}>
                 <img src={pizzaData.photoName} alt={pizzaData.name} />
                 <div>
                   <h2>{pizzaData.name}</h2>
@@ -116,6 +118,8 @@ export default function App() {
         <p>We're still working on our menu. Please come back later.</p>
       )}
 
+      <Steps/>
+      
       <Footer />
 
       <div className="card">
@@ -125,6 +129,7 @@ export default function App() {
           <Skillslist />
         </div>
       </div>
+      <Counter/>
     </div>
   );
 }
@@ -139,7 +144,7 @@ function Skillslist() {
   return (
     <div>
       {skills.map(({ skill, color, level }) => (
-        <div className="skill-list">
+        <div key={skill} className="skill-list">
           <Skill skill={skill} color={color} level={level} />
         </div>
       ))}
@@ -162,7 +167,7 @@ function Intro() {
   return (
     <div>
       {profileData.map(({ name, bio }) => (
-        <div>
+        <div key={name}>
           <h2 className="text-4xl font-bold py-5">{name}</h2>
           <p className="text-xl font-medium">{bio}</p>
         </div>
