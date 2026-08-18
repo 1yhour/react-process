@@ -1,5 +1,8 @@
 import Steps from "./Steps.tsx";
 import Counter from "./Counter.tsx"
+import TravelList from "./TravelList.jsx";
+import FlashCard from "./FlashCard.jsx";
+import CounterV2 from "./CounterV2.jsx";
 const pizzaData = [
   {
     name: "Focaccia",
@@ -129,7 +132,11 @@ export default function App() {
           <Skillslist />
         </div>
       </div>
+      <CounterV2/>
       <Counter/>
+      <TravelList/>
+      <FlashCard/>
+      
     </div>
   );
 }
