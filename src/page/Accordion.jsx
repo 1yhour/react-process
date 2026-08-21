@@ -22,25 +22,47 @@ export default function Accordion() {
   );
 }
 function AccordionHelper({ data }) {
+  const [curOpen, setCurOpen] = useState(null);
   return (
     <div className="accordion">
       {data.map((el, i) => (
-        <AccordionItem title={el.title} num={i} text={el.text} key={el.title}/>
+        <AccordionItem
+          title={el.title}
+          num={i}
+          key={el.title}
+          onOpen={setCurOpen}
+          curOpen={curOpen}
+        >
+          {el.text}
+        </AccordionItem>
       ))}
+      <AccordionItem
+        title='Testing'
+        num={22}
+        key='Testing'
+        onOpen={setCurOpen}
+        curOpen={curOpen}
+      >
+        <p>ecacae</p>
+        <li>
+          <ul>eac</ul>
+        </li>
+      </AccordionItem>
     </div>
   );
 }
-function AccordionItem({ num, title, text }) {
-  const [isOpen, setIsOpen] = useState(false);
-  function handleIsOpen(){
-    setIsOpen((isOpen) => !isOpen);
+function AccordionItem({ num, title, children, onOpen, curOpen }) {
+  const isOpen = num === curOpen;
+  function handleIsOpen() {
+    onOpen(isOpen ? null : num); // this update the parent state. it act as a reference to the parent state
   }
+
   return (
-    <div className={`item ${isOpen ? 'open' : 'text'}`} onClick={handleIsOpen}>
-      <p className="number">{num < 9 ? `0${num+1}` :num}</p>
+    <div className={`item ${isOpen ? "open" : "text"}`} onClick={handleIsOpen}>
+      <p className="number">{num < 9 ? `0${num + 1}` : num}</p>
       <p className="title">{title}</p>
-      <p className="icon">{isOpen ? "-": "+"}</p>
-      {isOpen && <div className="content-box">{text}</div>}
+      <p className="icon">{isOpen ? "-" : "+"}</p>
+      {isOpen && <div className="content-box">{children}</div>}
     </div>
   );
 }

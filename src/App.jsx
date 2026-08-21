@@ -1,4 +1,4 @@
-import Steps from "./page/Steps.tsx";
+import Steps from "./page/Steps.jsx";
 import Counter from "./page/Counter.tsx";
 import TravelList from "./page/TravelList.jsx";
 import FlashCard from "./page/FlashCard.jsx";
@@ -9,6 +9,7 @@ import Avator from "./components/Avator.jsx";
 import Skillslist from "./components/Skillslist.jsx";
 import Footer  from "./components/Footer.jsx";
 import Accordion from "./page/Accordion.jsx";
+import TipCalculate from './page/TipCalcalate.jsx'
 const pizzaData = [
   {
     name: "Focaccia",
@@ -105,6 +106,7 @@ export default function App() {
       <TravelList />
       <FlashCard />
       <Accordion/>
+      <TipCalculate/>
     </div>
   );
 }
