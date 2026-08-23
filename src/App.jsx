@@ -10,6 +10,7 @@ import Skillslist from "./components/Skillslist.jsx";
 import Footer  from "./components/Footer.jsx";
 import Accordion from "./page/Accordion.jsx";
 import TipCalculate from './page/TipCalcalate.jsx'
+import EatAndSplit from "./page/EatAndSplit.jsx";
 const pizzaData = [
   {
     name: "Focaccia",
@@ -107,6 +108,7 @@ export default function App() {
       <FlashCard />
       <Accordion/>
       <TipCalculate/>
+      <EatAndSplit/>
     </div>
   );
 }
