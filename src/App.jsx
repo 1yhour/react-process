@@ -11,6 +11,8 @@ import Footer  from "./components/Footer.jsx";
 import Accordion from "./page/Accordion.jsx";
 import TipCalculate from './page/TipCalcalate.jsx'
 import EatAndSplit from "./page/EatAndSplit.jsx";
+import Calculate from "./page/Calculate.jsx";
+import TextExpander from "./page/TextExpand.jsx";
 const pizzaData = [
   {
     name: "Focaccia",
@@ -109,6 +111,8 @@ export default function App() {
       <Accordion/>
       <TipCalculate/>
       <EatAndSplit/>
+      <Calculate/>
+      <TextExpander/>
     </div>
   );
 }
