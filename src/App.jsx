@@ -7,12 +7,14 @@ import Intro from "./components/Intro.jsx";
 import Header from "./components/Header.jsx";
 import Avator from "./components/Avator.jsx";
 import Skillslist from "./components/Skillslist.jsx";
-import Footer  from "./components/Footer.jsx";
+import Footer from "./components/Footer.jsx";
 import Accordion from "./page/Accordion.jsx";
-import TipCalculate from './page/TipCalcalate.jsx'
+import TipCalculate from "./page/TipCalcalate.jsx";
 import EatAndSplit from "./page/EatAndSplit.jsx";
 import Calculate from "./page/Calculate.jsx";
 import TextExpander from "./page/TextExpand.jsx";
+import Tabbed from "./page/Tabbed.jsx";
+import { useEffect, useState } from "react";
 const pizzaData = [
   {
     name: "Focaccia",
@@ -57,10 +59,56 @@ const pizzaData = [
     soldOut: false,
   },
 ];
-
+const KEY = "c4349037";
+function Spinner() {
+  return <p>Loading</p>;
+}
+function Error({ message }) {
+  return (
+    <div>
+      <p>Error</p>
+      {message}
+    </div>
+  );
+}
 export default function App() {
+  const [movie, setMovie] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const query = "interstellar";
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const res = await fetch(
+          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+        );
+
+        if (!res.ok) throw new Error("Cannot fetch data");
+
+        const data = await res.json();
+
+        if (data.Response === "False") {
+          throw new Error(data.Error || "No movie data found");
+        }
+
+        setMovie(data.Search || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [query]);
   const pizzas = pizzaData;
   // const pizzas = [];
+
   const numPizzas = pizzas.length;
   return (
     <div className="container">
@@ -108,11 +156,16 @@ export default function App() {
       <Counter />
       <TravelList />
       <FlashCard />
-      <Accordion/>
-      <TipCalculate/>
-      <EatAndSplit/>
-      <Calculate/>
-      <TextExpander/>
+      <Accordion />
+      <TipCalculate />
+      <EatAndSplit />
+      <Calculate />
+      <TextExpander />
+      <Tabbed />
+
+      {isLoading && <Spinner />}
+      {!isLoading && !error && movie.length > 0 && <p>Success</p>}
+      {error && <Error message={error} />}
     </div>
   );
 }
